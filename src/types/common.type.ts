@@ -64,3 +64,16 @@ export interface IPaging {
   limit: number;
   total?: number;
 }
+
+export interface IPaginationBeRes<T> {
+  items: T[];
+  totalItems: number;
+  pagination: {
+    currentPage: number;
+    nextPage: number;
+    previousPage: number;
+    hasNextPage: boolean;
+    hasPreviousPage: boolean;
+    lastPage: number;
+  };
+}
