@@ -1,0 +1,74 @@
+{
+  "extends": ["next/core-web-vitals", "plugin:prettier/recommended", "prettier"],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "endOfLine": "auto"
+      }
+    ]
+  },
+  "plugins": ["prettier", "unused-imports"],
+  "overrides": [
+    {
+      "parser": "@typescript-eslint/parser",
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "prettier/prettier": [
+          "error",
+          {
+            "bracketSpacing": true,
+            "endOfLine": "auto",
+            "printWidth": 120,
+            "semi": true,
+            "singleQuote": true,
+            "tabWidth": 2,
+            "trailingComma": "es5",
+            "plugins": ["prettier-plugin-tailwindcss"]
+          }
+        ],
+        "react/destructuring-assignment": "off", // Vscode doesn't support automatically destructuring, it's a pain to add a new variable
+        "jsx-a11y/anchor-is-valid": "off", // Next.js use his own internal link system
+        "react/require-default-props": "off", // Allow non-defined react props as undefined
+        "react/jsx-props-no-spreading": "off", // _app.tsx uses spread operator and also, react-hook-form
+        "react-hooks/exhaustive-deps": "warn", // Incorrectly report needed dependency with Next.js router
+        "@next/next/no-img-element": "off", // We currently not using next/image because it isn't supported with SSG mode
+        "@typescript-eslint/comma-dangle": "off", // Avoid conflict rule between Eslint and Prettier
+        "import/prefer-default-export": "off", // Named export is easier to refactor automatically
+        "@typescript-eslint/no-unused-vars": "off",
+        "no-underscore-dangle": "off",
+        "no-console": "off",
+        "import/no-cycle": "off",
+        "unused-imports/no-unused-imports": "error",
+        "unused-imports/no-unused-vars": [
+          "warn",
+          {
+            "argsIgnorePattern": "^_",
+            "varsIgnorePattern": "^_",
+            "caughtErrorsIgnorePattern": "^_"
+          }
+        ],
+        "no-restricted-exports": ["off", { "restrictedNamedExports": ["default"] }],
+        "new-cap": ["off", { "newIsCap": true }],
+        "no-plusplus": "off",
+
+        "no-return-assign": "off",
+        "react/display-name": "off",
+        "no-param-reassign": "off",
+        "@typescript-eslint/no-use-before-define": "off",
+        "@next/next/no-html-link-for-pages": "off",
+        "no-html-link-for-pages": "off"
+      }
+    }
+  ],
+  "settings": {
+    "tailwindcss": {
+      "callees": ["cn"],
+      "config": "tailwind.config.js"
+    },
+    "next": {
+      "rootDir": true
+    }
+  }
+}

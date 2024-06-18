@@ -1,0 +1,9 @@
+version: '3.9'
+
+services:
+  my-next-app:
+    container_name: my-next-app
+    image: my-next-app
+    build: .
+    ports:
+      - '3000:3000'
