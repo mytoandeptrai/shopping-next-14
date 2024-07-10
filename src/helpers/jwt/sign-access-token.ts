@@ -2,7 +2,7 @@ import { env } from '@/config';
 import { JWTPayload } from '@/types/jwt.type';
 import JWT from 'jsonwebtoken';
 
-const signAccessToken = (payload: JWTPayload) => {
+const signAccessToken = async (payload: JWTPayload) => {
   try {
     const secret = env.ACCESS_TOKEN_SECRET;
 

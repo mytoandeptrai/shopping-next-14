@@ -3,12 +3,16 @@ import { identifyMiddleware, jwtAccessTokenMiddleware, validateMiddleware } from
 import Joi from 'joi';
 import { NextRequest, NextResponse } from 'next/server';
 
-type AsyncRequestHandler = (req: NextRequest, res: NextResponse, ...args: any[]) => Promise<void>;
+type AsyncRequestHandler = (
+  req: NextRequest,
+  res: NextResponse,
+  ...args: any[]
+) => Promise<NextResponse | Record<string, any> | undefined>;
 
 interface HandlerPayload {
-  identifyVal: string;
-  isJwt: boolean;
-  schema: Joi.ObjectSchema;
+  identifyVal?: string;
+  isJwt?: boolean;
+  schema?: Joi.ObjectSchema;
 }
 
 const publicPathsArray = ['POST:/api/auth/login', 'POST:/api/auth/register', 'POST:/api/auth/logout'];
@@ -20,21 +24,21 @@ const isPublicPath = (request: NextRequest) => {
 
 export const asyncHandler = (handler: AsyncRequestHandler, payload: HandlerPayload) => {
   return async (req: NextRequest, res: NextResponse, ...args: any[]) => {
-    const { identifyVal, isJwt, schema } = payload;
+    const { identifyVal, isJwt = false, schema } = payload;
     try {
       if (!isPublicPath(req)) {
         // Apply middleware logic only if the path is not public
         await jwtAccessTokenMiddleware({ req, isJwt });
         await identifyMiddleware(req, identifyVal, isJwt);
-        await validateMiddleware(req, schema);
       }
 
+      await validateMiddleware(req, schema);
       const responseBody = await handler(req, res, ...args);
-      if (responseBody !== undefined) {
-        return NextResponse.json(responseBody);
+      if (responseBody instanceof NextResponse) {
+        return responseBody;
       }
 
-      return NextResponse.json({});
+      return NextResponse.json(responseBody);
     } catch (err) {
       // Handle errors globally
       return errorHandler(err as ErrorHandlerError);

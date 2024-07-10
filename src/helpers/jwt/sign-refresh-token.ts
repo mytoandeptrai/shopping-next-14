@@ -2,7 +2,7 @@ import { env } from '@/config';
 import { JWTPayload } from '@/types/jwt.type';
 import JWT from 'jsonwebtoken';
 
-const signRefreshToken = (payload: JWTPayload) => {
+const signRefreshToken = async (payload: JWTPayload) => {
   try {
     const secret = env.REFRESH_TOKEN_SECRET;
 

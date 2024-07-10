@@ -1,7 +1,7 @@
 import { env } from '@/config';
 import JWT from 'jsonwebtoken';
 
-const verifyRefreshToken = (token: string) => {
+const verifyRefreshToken = async (token: string) => {
   try {
     const secret = env.REFRESH_TOKEN_SECRET;
 

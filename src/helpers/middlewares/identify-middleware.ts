@@ -20,7 +20,7 @@ const identifyMiddleware = async (request: NextRequest, identifyVal = 'user', is
   if (identifyVal === 'user' && !isJWT) return;
 
   try {
-    const userId = request.headers.get('userId');
+    const userId = request.userId;
     const user = await userRepository.getOne({ _id: userId ?? '' });
     const authorized = identifyRolesMiddleware(identifyVal, user);
     if (authorized) {
