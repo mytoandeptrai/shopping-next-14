@@ -1,18 +1,19 @@
 import { asyncHandler, responseHandler } from '@/helpers/api';
-import { categoryRepository } from '@/models/repository/category.repository';
+import { bannerRepository } from '@/models/repository';
 import { NextRequest } from 'next/server';
 
 interface Params {
   id: string;
 }
-const deleteCategoryHandler = asyncHandler<Params>(
+
+const deleteBannerHandler = asyncHandler<Params>(
   async (req: NextRequest, context: { params: Params }) => {
     const { id } = context.params;
 
-    const result = await categoryRepository.deleteCategory(id);
+    const result = await bannerRepository.deleteBanner(id);
     const response = responseHandler({
       code: 200,
-      message: 'Delete category successfully',
+      message: 'Delete Banner successfully',
       data: result,
     });
 
@@ -23,6 +24,6 @@ const deleteCategoryHandler = asyncHandler<Params>(
   }
 );
 
-export const DELETE = deleteCategoryHandler;
+export const DELETE = deleteBannerHandler;
 
 export const dynamic = 'force-dynamic';

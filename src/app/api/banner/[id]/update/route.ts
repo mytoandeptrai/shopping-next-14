@@ -1,18 +1,21 @@
 import { asyncHandler, responseHandler } from '@/helpers/api';
-import { categoryRepository } from '@/models/repository/category.repository';
+import { bannerRepository } from '@/models/repository';
 import { NextRequest } from 'next/server';
+
+import { updateBannerSchema } from '@/app/api/banner/[id]/update/schemaValidation';
 
 interface Params {
   id: string;
 }
-const deleteCategoryHandler = asyncHandler<Params>(
+
+const updateBannerHandler = asyncHandler<Params>(
   async (req: NextRequest, context: { params: Params }) => {
     const { id } = context.params;
-
-    const result = await categoryRepository.deleteCategory(id);
+    const body = await req.json();
+    const result = await bannerRepository.updateBanner({ ...body, id });
     const response = responseHandler({
       code: 200,
-      message: 'Delete category successfully',
+      message: 'Update Banner successfully',
       data: result,
     });
 
@@ -20,9 +23,10 @@ const deleteCategoryHandler = asyncHandler<Params>(
   },
   {
     isJwt: true,
+    schema: updateBannerSchema,
   }
 );
 
-export const DELETE = deleteCategoryHandler;
+export const PATCH = updateBannerHandler;
 
 export const dynamic = 'force-dynamic';

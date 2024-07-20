@@ -3,10 +3,9 @@ import { identifyMiddleware, jwtAccessTokenMiddleware, validateMiddleware } from
 import Joi from 'joi';
 import { NextRequest, NextResponse } from 'next/server';
 
-type AsyncRequestHandler = (
+type AsyncRequestHandler<P> = (
   req: NextRequest,
-  res: NextResponse,
-  ...args: any[]
+  context: { params: P }
 ) => Promise<NextResponse | Record<string, any> | undefined>;
 
 interface HandlerPayload {
@@ -22,8 +21,8 @@ const isPublicPath = (request: NextRequest) => {
   return publicPathsArray.includes(url);
 };
 
-export const asyncHandler = (handler: AsyncRequestHandler, payload: HandlerPayload) => {
-  return async (req: NextRequest, res: NextResponse, ...args: any[]) => {
+export const asyncHandler = <P>(handler: AsyncRequestHandler<P>, payload: HandlerPayload) => {
+  return async (req: NextRequest, context: { params: P }) => {
     const { identifyVal, isJwt = false, schema } = payload;
     try {
       if (!isPublicPath(req)) {
@@ -33,7 +32,7 @@ export const asyncHandler = (handler: AsyncRequestHandler, payload: HandlerPaylo
       }
 
       await validateMiddleware(req, schema);
-      const responseBody = await handler(req, res, ...args);
+      const responseBody = await handler(req, context);
       if (responseBody instanceof NextResponse) {
         return responseBody;
       }

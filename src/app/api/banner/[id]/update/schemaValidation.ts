@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-export const createBannerSchema = Joi.object({
+export const updateBannerSchema = Joi.object({
   categoryId: Joi.string().required(),
   image: Joi.object().required(),
   isPublic: Joi.boolean().required(),

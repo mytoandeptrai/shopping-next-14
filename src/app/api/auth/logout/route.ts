@@ -32,3 +32,4 @@ const logoutHandler = asyncHandler(async () => {
 }, {});
 
 export const POST = logoutHandler;
+export const dynamic = 'force-dynamic';

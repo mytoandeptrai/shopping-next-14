@@ -3,8 +3,6 @@ import { userRepository } from '@/models/repository';
 
 import { registerSchema } from '@/app/api/auth/register/schemaValidation';
 
-export const dynamic = 'force-dynamic';
-
 const registerHandler = asyncHandler(
   async (req: Request) => {
     const body = await req.json();
@@ -24,3 +22,4 @@ const registerHandler = asyncHandler(
 );
 
 export const POST = registerHandler;
+export const dynamic = 'force-dynamic';

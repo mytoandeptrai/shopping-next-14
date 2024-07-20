@@ -1,17 +1,15 @@
 import { asyncHandler, responseHandler } from '@/helpers/api';
-import { IGetAllCategoryPayload, categoryRepository } from '@/models/repository/category.repository';
+import { categoryRepository } from '@/models/repository/category.repository';
 import { NextRequest } from 'next/server';
 
-const getCategoryHandler = asyncHandler(async (req: NextRequest) => {
-  const queryString = req.url.split('?')[1];
-  const searchParams = new URLSearchParams(queryString);
-  const id = String(searchParams.get('id'));
-  const name = String(searchParams.get('name'));
-  const query: IGetAllCategoryPayload = {};
-  if (id) query['id'] = id;
-  if (name) query['name'] = name;
+interface Params {
+  id: string;
+}
 
-  const result = await categoryRepository.getOne(query);
+const getCategoryHandler = asyncHandler<Params>(async (req: NextRequest, context: { params: Params }) => {
+  const _id = context.params?.id;
+
+  const result = await categoryRepository.getOne({ _id });
   const response = responseHandler({
     code: 200,
     message: 'Get category successfully',
