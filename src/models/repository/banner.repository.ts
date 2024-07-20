@@ -11,12 +11,14 @@ export interface IGetAllBannerPayload extends FilterQuery<IBanner> {
 }
 
 interface ICreateBannerPayload {
-  name: string;
-  slug: string;
-  image: string;
-  colors: object;
-  level: number;
-  parentId: string;
+  categoryId: string;
+  image: {
+    url: string;
+  };
+  isPublic: string;
+  title: string;
+  type: string;
+  uri: string;
 }
 
 interface IUpdateBannerPayload extends ICreateBannerPayload {
@@ -38,7 +40,7 @@ const getOne = async (filter: IGetAllBannerPayload): Promise<IBanner | null> => 
 };
 
 const getAllBanner = async (filter: IGetAllBannerPayload) => {
-  const { page_size = 3, page = 1, ...rest } = filter;
+  const { page_size = 5, page = 1, ...rest } = filter;
   try {
     await db.connect();
     const bannerData = Banner.find(rest)
@@ -61,8 +63,8 @@ const getAllBanner = async (filter: IGetAllBannerPayload) => {
 
 const createBanner = async (params: ICreateBannerPayload) => {
   await db.connect();
-  const banner = await Banner.findOne({ name: params.name });
-  if (banner) throw 'Banner name is existed.!';
+  const banner = await Banner.findOne({ title: params.title });
+  if (banner) throw 'Banner title is existed.!';
   const newBanner = new Banner(params);
   await newBanner.save();
   await db.disconnect();

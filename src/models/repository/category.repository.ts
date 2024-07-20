@@ -37,7 +37,7 @@ const getOne = async (filter: IGetAllCategoryPayload): Promise<ICategory | null>
 };
 
 const getAllCategory = async (filter: IGetAllCategoryPayload) => {
-  const { page_size = 3, page = 1, ...rest } = filter;
+  const { page_size = 5, page = 1, ...rest } = filter;
   try {
     await db.connect();
     const CategoryData = Category.find(rest)
