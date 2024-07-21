@@ -1,5 +1,6 @@
 import { db } from '@/config';
 import Category from '@/models/model/category.model';
+import Product from '@/models/model/product.model';
 import { ICategory } from '@/models/type';
 import { FilterQuery } from 'mongoose';
 
@@ -72,6 +73,7 @@ const deleteCategory = async (id: string) => {
   await db.connect();
   const category = await Category.findById(id);
   if (!category) throw 'Category is not existed.!';
+  await Product.deleteMany({ category: { $in: [category._id] } });
   await Category.findByIdAndDelete(id);
   await db.disconnect();
 };
