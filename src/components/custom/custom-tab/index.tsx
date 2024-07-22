@@ -25,7 +25,7 @@ const Tabs = <T extends string | number>({ data, extras, className, onChange, va
               <li
                 onClick={() => onChange(tab.value)}
                 className={cn(
-                  'text-neutral-30 relative mt-auto h-12 cursor-pointer whitespace-nowrap px-4 py-3 text-center text-sm md:text-base',
+                  'relative mt-auto h-12 cursor-pointer whitespace-nowrap px-4 py-3 text-center text-sm text-neutral-30 md:text-base',
                   {
                     'text-main': value === tab.value,
                   }
@@ -36,7 +36,7 @@ const Tabs = <T extends string | number>({ data, extras, className, onChange, va
                 {value === tab.value ? (
                   <motion.div
                     layoutId={id}
-                    className="bg-main absolute bottom-0 left-0 z-10 h-[5px] w-full"
+                    className="absolute bottom-0 left-0 z-10 h-[5px] w-full bg-main"
                     transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                   />
                 ) : null}

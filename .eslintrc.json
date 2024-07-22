@@ -25,7 +25,7 @@
             "singleQuote": true,
             "tabWidth": 2,
             "trailingComma": "es5",
-            "plugins": ["prettier-plugin-tailwindcss"]
+            "plugins": ["prettier-plugin-tailwindcss", "@trivago/prettier-plugin-sort-imports"]
           }
         ],
         "react/destructuring-assignment": "off", // Vscode doesn't support automatically destructuring, it's a pain to add a new variable
