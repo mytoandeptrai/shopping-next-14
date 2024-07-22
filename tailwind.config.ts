@@ -1,5 +1,7 @@
 import type { Config } from 'tailwindcss';
 
+const { fontFamily } = require('tailwindcss/defaultTheme');
+
 const config = {
   darkMode: ['class'],
   content: ['./pages/**/*.{ts,tsx}', './components/**/*.{ts,tsx}', './app/**/*.{ts,tsx}', './src/**/*.{ts,tsx}'],
@@ -7,14 +9,46 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: '2rem',
+      padding: {
+        DEFAULT: '1rem',
+        sm: '2rem',
+        lg: '4rem',
+        xl: '5rem',
+        '2xl': '6rem',
+      },
       screens: {
         '2xl': '1400px',
       },
     },
     extend: {
+      fontSize: {
+        xxs: '0.625rem',
+        sm: ['14px', '20px'],
+        base: ['16px', '20px'],
+      },
       fontFamily: {
         sans: ['var(--font-lato)'],
+      },
+      flex: {
+        full: '0 0 100%',
+      },
+      maxWidth: {
+        dashboard: 'var(--dashboard-container)',
+      },
+      width: {
+        sidebar: 'var(--w-sidebar)',
+      },
+      height: {
+        header: 'var(--header-h)',
+      },
+      borderWidth: {
+        DEFAULT: '1.5px',
+        '0': '0',
+        '2': '2px',
+        '3': '3px',
+        '4': '4px',
+        '6': '6px',
+        '8': '8px',
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -50,11 +84,59 @@ const config = {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
         },
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          light: 'hsl(var(--success-light))',
+        },
+        error: {
+          DEFAULT: 'hsl(var(--error))',
+          light: 'hsl(var(--error-light))',
+        },
+        warning: {
+          DEFAULT: 'hsl(var(--warning))',
+          light: 'hsl(var(--warning-light))',
+        },
+        info: {
+          DEFAULT: 'hsl(var(--info))',
+          light: 'hsl(var(--info-light))',
+        },
+        divider: 'hsl(var(--divider))',
+        neutral: {
+          '0': '#FFFFFF',
+          '10': '#DADADA',
+          '20': '#B5B5B5',
+          '30': '#909090',
+          '40': '#6B6B6B',
+          '50': '#464646',
+          '60': '#212121',
+        },
+        main: {
+          DEFAULT: '#133C65',
+          '0': '#ECF0F4',
+          '10': '#DBE4ED',
+          '20': '#DBE4ED',
+          '30': '#B4D2F0',
+          '40': '#6391C0',
+          '50': '#133C65',
+          '60': '#0B233A',
+        },
+        readonly: {
+          DEFAULT: '#E6E6E6',
+          border: '#B6B6B6',
+        },
       },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
+        '3xl': '36px',
+        '2xl': '24px',
+        xl: '16px',
+        lg: '12px',
+        md: '8px',
+        sm: '4px',
+        haft: '50%',
+      },
+      boxShadow: {
+        active: '0 0 80px 0 rgba(0, 0, 0, 0.10)',
+        '3xl': '0 0 10px 3px rgba(0,0,0,0.08)',
       },
       keyframes: {
         'accordion-down': {
@@ -72,7 +154,7 @@ const config = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
 } satisfies Config;
 
 export default config;
