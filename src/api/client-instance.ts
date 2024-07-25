@@ -46,7 +46,7 @@ const deleteClientCookiesPath: AfterResponseHook = async () => {
 };
 
 const beforeRequestInterceptor: BeforeRequestHook = async (request) => {
-  const token = jsCookie.get('token');
+  const token = jsCookie.get(env.COOKIE_NAME_TOKEN);
   const locale = jsCookie.get('NEXT_LOCALE');
   if (token) request.headers.set('Authorization', `Bearer ${token}`);
   if (locale) request.headers.set('X-Locale', locale);
