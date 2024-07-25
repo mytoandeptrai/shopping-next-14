@@ -1,4 +1,6 @@
 import { loginRequest } from '@/api/auth';
+import { setStore } from '@/api/base-instance';
+import { env } from '@/config';
 import { initialFormValue } from '@/modules/Login/hooks/config';
 import { loginSchema, loginSchemaType } from '@/modules/Login/hooks/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -16,7 +18,9 @@ export const useLoginForm = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: loginRequest,
     onSuccess: (res) => {
-      console.log('res', res);
+      if (!res) return;
+      setStore(env.COOKIE_NAME_TOKEN, res.data.accessToken);
+      setStore(env.COOKIE_NAME_RF_TOKEN, res.data.refreshToken);
     },
   });
 
@@ -27,6 +31,7 @@ export const useLoginForm = () => {
   return {
     formId,
     form,
+    isPending,
     onSubmit,
   };
 };

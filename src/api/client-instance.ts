@@ -1,4 +1,5 @@
-import { baseInstance } from '@/api/base-instance';
+import { reNewTokenRequest } from '@/api/auth';
+import { baseInstance, getStore } from '@/api/base-instance';
 import { env } from '@/config';
 import { ExceptionCode } from '@/constants/exception-code';
 import { ApiErrorResponse } from '@/types/ky-response.type';
@@ -15,16 +16,18 @@ const retryRequestAfterUnauthorized: AfterResponseHookWithProcess = (process) =>
     if (runtimeCheck() === 'browser') {
       const data = await response.json();
       if (data.exceptionCode === ExceptionCode.UNAUTHORIZED) {
-        window.location.href = '/login';
-        // const data = await getRefresh();
-        // if (data.success === true) {
-        //   return ky(request, options);
-        // } else {
-        //   window.location.href = '/login';
-        //   return;
-        // }
+        try {
+          const refreshToken = getStore(env.COOKIE_NAME_RF_TOKEN) ?? '';
+          await reNewTokenRequest(refreshToken);
+          return ky(request, options);
+        } catch (error) {
+          window.location.href = '/login';
+          return;
+        }
       }
     }
+
+    throw new Error('refresh token is not valid');
   };
 };
 
