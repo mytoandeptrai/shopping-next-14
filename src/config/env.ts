@@ -8,6 +8,7 @@ export const env = {
   REFRESH_TOKEN_SECRET: process.env.NEXT_PUBLIC_REFRESH_TOKEN_SECRET ?? '',
   REFRESH_TOKEN_EXPIRED: process.env.NEXT_PUBLIC_REFRESH_TOKEN_EXPIRED ?? '45h',
   COOKIE_NAME_TOKEN: process.env.NEXT_PUBLIC_COOKIE_NAME_TOKEN ?? 'TPMT-token',
+  REDIRECT_URL: process.env.NEXT_PUBLIC_REDIRECT_URL ?? 'http://localhost:3000',
 };
 
 export const isServer = typeof window === 'undefined';
