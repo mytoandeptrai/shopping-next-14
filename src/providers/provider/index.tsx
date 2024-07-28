@@ -8,6 +8,7 @@ import React from 'react';
 
 import { TailwindIndicator } from '@/components/tailwind-indicator';
 import { ThemeProvider } from '@/components/theme-provider';
+import { Toaster } from '@/components/ui/toaster';
 
 interface Props {}
 
@@ -26,6 +27,7 @@ const Provider: FCC<Props> = ({ children }) => {
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange={false}>
       <QueryClientProvider client={_queryClient}>
         {children}
+        <Toaster />
         <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
         <TailwindIndicator />
         <ProgressBar height="4px" color="#133C65" options={{ showSpinner: false }} shallowRouting />

@@ -18,7 +18,7 @@ const loginHandler = asyncHandler(
 
     const responsePayload = responseHandler({
       code: 200,
-      message: 'Register success',
+      message: 'Login success',
       data: result,
     });
 

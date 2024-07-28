@@ -21,3 +21,24 @@ export interface ILoginResponse {
     root: boolean;
   };
 }
+
+export interface IRegisterResponse extends Omit<ILoginResponse, 'data'> {
+  data: {
+    token: string;
+    user: {
+      email: string;
+      name: string;
+      role: string;
+      root: boolean;
+    };
+  };
+}
+
+export interface IRenewTokenResponse {
+  code: string;
+  message: string;
+  data: {
+    newAccessToken: string;
+    newRefreshToken: string;
+  };
+}

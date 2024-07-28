@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { FormWrapper } from '@/components/ui/form';
 
 const Form = () => {
-  const { form, formId, onSubmit } = useLoginForm();
+  const { form, formId, isPending, onSubmit } = useLoginForm();
   const { control, setFocus } = form;
 
   useEffect(() => {
@@ -19,9 +19,15 @@ const Form = () => {
   return (
     <FormWrapper form={form} formId={formId} onSubmit={onSubmit}>
       <VStack>
-        <TextField control={control} name="email" placeholder="Enter your email..." />
-        <TextField control={control} name="password" type="password" placeholder="Enter your password..." />
-        <Button className="w-full" type="submit">
+        <TextField control={control} name="email" disabled={isPending} placeholder="Enter your email..." />
+        <TextField
+          control={control}
+          name="password"
+          type="password"
+          disabled={isPending}
+          placeholder="Enter your password..."
+        />
+        <Button className="w-full" type="submit" disabled={isPending}>
           Login
         </Button>
       </VStack>

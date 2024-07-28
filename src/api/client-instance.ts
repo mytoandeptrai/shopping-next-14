@@ -1,33 +1,69 @@
 import { reNewTokenRequest } from '@/api/auth';
-import { baseInstance, getStore } from '@/api/base-instance';
+import { baseInstance, getStore, setStore } from '@/api/base-instance';
 import { env } from '@/config';
 import { ExceptionCode } from '@/constants/exception-code';
 import { ApiErrorResponse } from '@/types/ky-response.type';
 import { default as Cookies, default as jsCookie } from 'js-cookie';
-import ky, { AfterResponseHook, BeforeRequestHook } from 'ky';
+import ky, { AfterResponseHook, BeforeRequestHook, NormalizedOptions } from 'ky';
 import merge from 'lodash/merge';
 
 import { runtimeCheck } from '@/lib/run-time-check';
 
 type AfterResponseHookWithProcess = (process: NodeJS.Process) => AfterResponseHook;
 
+interface FailedRequests {
+  resolve: (value: Response | PromiseLike<Response>) => void;
+  reject: (reason?: unknown) => void;
+  request: Request;
+  response: Response;
+  options: NormalizedOptions;
+}
+
+let failedRequests: FailedRequests[] = [];
+let isTokenRefreshing = false;
+
 const retryRequestAfterUnauthorized: AfterResponseHookWithProcess = (process) => {
   return async (request, options, response) => {
     if (runtimeCheck() === 'browser') {
       const data = await response.json();
-      if (data.exceptionCode === ExceptionCode.UNAUTHORIZED) {
+      if (data.code === ExceptionCode.UNAUTHORIZED) {
+        if (isTokenRefreshing) {
+          return new Promise((resolve, reject) => {
+            failedRequests.push({
+              resolve,
+              reject,
+              request,
+              options,
+              response,
+            });
+          });
+        }
+
+        isTokenRefreshing = true;
+
         try {
           const refreshToken = getStore(env.COOKIE_NAME_RF_TOKEN) ?? '';
-          await reNewTokenRequest(refreshToken);
-          return ky(request, options);
-        } catch (error) {
+          const res = await reNewTokenRequest(refreshToken);
+          const { newAccessToken, newRefreshToken } = res.data;
+          setStore(env.COOKIE_NAME_TOKEN, newAccessToken);
+          setStore(env.COOKIE_NAME_RF_TOKEN, newRefreshToken);
+          failedRequests.forEach(({ options, reject, request, resolve }) => {
+            ky(request, options)
+              .then((resHttp) => resolve(resHttp))
+              .catch((errorHttp) => reject(errorHttp));
+          });
+        } catch (_error: unknown) {
+          failedRequests.forEach(({ reject }) => reject(_error));
           window.location.href = '/login';
-          return;
+          return Promise.reject(_error);
+        } finally {
+          failedRequests = [];
+          isTokenRefreshing = false;
         }
+
+        return ky(request, options);
       }
     }
-
-    throw new Error('refresh token is not valid');
   };
 };
 

@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { FormWrapper } from '@/components/ui/form';
 
 const Form = () => {
-  const { form, formId, onSubmit } = useRegisterForm();
+  const { form, formId, isPending, onSubmit } = useRegisterForm();
   const { control, setFocus } = form;
 
   useEffect(() => {
@@ -19,15 +19,23 @@ const Form = () => {
   return (
     <FormWrapper form={form} formId={formId} onSubmit={onSubmit}>
       <VStack>
-        <TextField control={control} name="email" placeholder="Enter your email..." />
-        <TextField control={control} name="password" type="password" placeholder="Enter your password..." />
+        <TextField control={control} disabled={isPending} name="name" placeholder="Enter your username..." />
+        <TextField control={control} disabled={isPending} name="email" placeholder="Enter your email..." />
         <TextField
+          control={control}
+          disabled={isPending}
+          name="password"
+          type="password"
+          placeholder="Enter your password..."
+        />
+        <TextField
+          disabled={isPending}
           control={control}
           name="confirmPassword"
           type="password"
           placeholder="Enter your confirm password..."
         />
-        <Button className="w-full" type="submit">
+        <Button disabled={isPending} className="w-full" type="submit">
           Register
         </Button>
       </VStack>

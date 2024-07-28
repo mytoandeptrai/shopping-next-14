@@ -1,11 +1,17 @@
-import { ILoginPayload, ILoginResponse, IRegisterPayload } from '@/api/auth/types';
+import {
+  ILoginPayload,
+  ILoginResponse,
+  IRegisterPayload,
+  IRegisterResponse,
+  IRenewTokenResponse,
+} from '@/api/auth/types';
 import { clientInstance } from '@/api/client-instance';
 
-export const reNewTokenRequest = async (refreshToken: string) => {
+export const reNewTokenRequest = async (refreshToken: string): Promise<IRenewTokenResponse> => {
   const json = {
     refreshToken,
   };
-  const response = await clientInstance
+  const response: IRenewTokenResponse = await clientInstance
     .post('api/auth/renew-token', {
       json,
     })
@@ -20,8 +26,8 @@ export const loginRequest = async (json: ILoginPayload): Promise<ILoginResponse>
   return response;
 };
 
-export const registerRequest = async (json: IRegisterPayload) => {
-  const response = await clientInstance
+export const registerRequest = async (json: IRegisterPayload): Promise<IRegisterResponse> => {
+  const response: IRegisterResponse = await clientInstance
     .post('api/auth/register', {
       json,
     })

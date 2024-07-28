@@ -4,6 +4,7 @@ const initialFormValue: IFormValues = {
   email: '',
   password: '',
   confirmPassword: '',
+  name: '',
 };
 
 export { initialFormValue };
