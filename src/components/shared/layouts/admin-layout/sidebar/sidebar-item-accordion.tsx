@@ -1,4 +1,5 @@
 import { ChevronRight } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/utils';
 
@@ -22,6 +23,9 @@ type Props = {
 };
 
 const SidebarItemAccordion = ({ isOpen, link }: Props) => {
+  const pathname = usePathname();
+  const isActive = pathname.includes(`/admin${link.href}`);
+
   if (!isOpen) {
     return (
       <DropdownMenu>
@@ -30,7 +34,9 @@ const SidebarItemAccordion = ({ isOpen, link }: Props) => {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="relative flex h-12 justify-between duration-0 hover:bg-accent focus:bg-accent"
+                className={cn('relative flex h-12 justify-between duration-0 hover:bg-accent focus:bg-accent', {
+                  'bg-muted': isActive,
+                })}
               >
                 <link.icon size={25} className="shrink-0 text-accent-foreground" />
                 <span className="sr-only">{link.title}</span>
@@ -42,16 +48,23 @@ const SidebarItemAccordion = ({ isOpen, link }: Props) => {
             <ChevronRight size={16} className="rtl:rotate-180" />
           </TooltipContent>
         </Tooltip>
-        <DropdownMenuContent className="bg-red-500" sideOffset={8} side={'left'} align="start">
+        <DropdownMenuContent sideOffset={8} side={'left'} align="start">
           <DropdownMenuLabel>{link.title}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {link.children!.map((child) => (
-            <DropdownMenuItem key={child.title + child.href} asChild>
-              <CustomLink href={child.hrefAsIs ? child.href : `/admin  ${link.href}${child.href}`}>
-                <span> {child.title}</span>
-              </CustomLink>
-            </DropdownMenuItem>
-          ))}
+          {link.children!.map((child) => {
+            const isActiveChild = pathname.includes(`/admin${link.href}${child.href}`);
+
+            return (
+              <DropdownMenuItem key={child.title + child.href} asChild>
+                <CustomLink
+                  className={cn(isActiveChild && 'bg-muted')}
+                  href={child.hrefAsIs ? child.href : `/admin${link.href}${child.href}`}
+                >
+                  <span> {child.title}</span>
+                </CustomLink>
+              </DropdownMenuItem>
+            );
+          })}
         </DropdownMenuContent>
       </DropdownMenu>
     );
@@ -63,7 +76,8 @@ const SidebarItemAccordion = ({ isOpen, link }: Props) => {
         <AccordionTrigger
           className={cn(
             buttonVariants({ variant: 'ghost' }),
-            'relative flex h-12 justify-between duration-0 hover:bg-accent focus:bg-accent w-full'
+            'relative flex h-12 justify-between duration-0 hover:bg-accent focus:bg-accent w-full',
+            isActive && 'bg-muted'
           )}
         >
           <div>
@@ -74,7 +88,7 @@ const SidebarItemAccordion = ({ isOpen, link }: Props) => {
         <AccordionContent className="mt-3 space-y-2 pb-1 pl-4 pr-1">
           {link.children!.map((child) => (
             <CustomLink
-              href={child.hrefAsIs ? child.href : `/dashboard${link.href}${child.href}`}
+              href={child.hrefAsIs ? child.href : `/admin${link.href}${child.href}`}
               key={child.title}
               className={cn(
                 buttonVariants({ variant: 'ghost' }),

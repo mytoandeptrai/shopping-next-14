@@ -40,7 +40,7 @@ export const sidebarLinks: SidebarLink[] = [
   {
     title: 'products',
     icon: LayoutDashboardIcon,
-    href: '/products',
+    href: '/product',
     children: [
       {
         title: 'list',
@@ -59,7 +59,7 @@ export const sidebarLinks: SidebarLink[] = [
   {
     title: 'orders',
     icon: ListOrderedIcon,
-    href: '/orders',
+    href: '/order',
     children: [
       {
         title: 'list',
@@ -70,7 +70,7 @@ export const sidebarLinks: SidebarLink[] = [
   {
     title: 'details',
     icon: ListCollapseIcon,
-    href: '/details',
+    href: '/detail',
   },
   {
     title: 'users',

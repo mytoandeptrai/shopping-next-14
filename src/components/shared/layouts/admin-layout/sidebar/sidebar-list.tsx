@@ -1,5 +1,6 @@
 import { sidebarLinks } from '@/components/shared/layouts/admin-layout/sidebar/config';
 import SidebarItem from '@/components/shared/layouts/admin-layout/sidebar/sidebar-item';
+import { SheetHeader } from '@/components/ui/sheet';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
 type Props = {
@@ -10,12 +11,21 @@ const SidebarList = ({ isOpen }: Props) => {
   return (
     <nav className="max-h-screen overflow-y-auto">
       <div className="sticky top-0 z-10 bg-card">
-        <div className="flex items-center gap-2 overflow-hidden border-b px-6 py-5">
+        <div className="items-center gap-2 hidden md:flex overflow-hidden border-b px-6 py-5">
           <svg className="w-auto shrink-0" aria-label="logo" height="22" role="img" viewBox="0 0 74 64">
             <path d="M37.5896 0.25L74.5396 64.25H0.639648L37.5896 0.25Z" className="fill-foreground" />
           </svg>
           {isOpen && <span className="whitespace-nowrap text-sm">Toàn thích var</span>}
         </div>
+
+        <SheetHeader className="md:hidden block">
+          <div className="items-center gap-2 flex overflow-hidden border-b px-6 py-5">
+            <svg className="w-auto shrink-0" aria-label="logo" height="22" role="img" viewBox="0 0 74 64">
+              <path d="M37.5896 0.25L74.5396 64.25H0.639648L37.5896 0.25Z" className="fill-foreground" />
+            </svg>
+            {isOpen && <span className="whitespace-nowrap text-sm">Toàn thích var</span>}
+          </div>
+        </SheetHeader>
       </div>
       <TooltipProvider delayDuration={200}>
         <div className="flex justify-center text-foreground">

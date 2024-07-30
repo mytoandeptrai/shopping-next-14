@@ -1,7 +1,6 @@
+import { ROUTES } from '@/constants/routes';
+import { redirect } from 'next/navigation';
+
 export default async function Home() {
-  return (
-    <main className="flex items-center justify-center">
-      <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">Admin ne</div>
-    </main>
-  );
+  return redirect(ROUTES.ADMIN_PRODUCT_LIST);
 }
