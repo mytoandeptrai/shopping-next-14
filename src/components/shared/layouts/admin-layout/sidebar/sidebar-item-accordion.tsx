@@ -57,7 +57,7 @@ const SidebarItemAccordion = ({ isOpen, link }: Props) => {
             return (
               <DropdownMenuItem key={child.title + child.href} asChild>
                 <CustomLink
-                  className={cn(isActiveChild && 'bg-muted')}
+                  className={cn(isActiveChild && 'bg-slate-300')}
                   href={child.hrefAsIs ? child.href : `/admin${link.href}${child.href}`}
                 >
                   <span> {child.title}</span>
@@ -86,19 +86,24 @@ const SidebarItemAccordion = ({ isOpen, link }: Props) => {
           <span className="absolute capitalize left-20 text-base"> {link.title}</span>
         </AccordionTrigger>
         <AccordionContent className="mt-3 space-y-2 pb-1 pl-4 pr-1">
-          {link.children!.map((child) => (
-            <CustomLink
-              href={child.hrefAsIs ? child.href : `/admin${link.href}${child.href}`}
-              key={child.title}
-              className={cn(
-                buttonVariants({ variant: 'ghost' }),
-                'relative flex h-10 w-full justify-start gap-3 hover:bg-accent focus:bg-accent'
-              )}
-            >
-              <div className="size-2 rounded-full border bg-accent-foreground" />
-              <span> {child.title}</span>
-            </CustomLink>
-          ))}
+          {link.children!.map((child) => {
+            const isActiveChild = pathname.includes(`/admin${link.href}${child.href}`);
+
+            return (
+              <CustomLink
+                href={child.hrefAsIs ? child.href : `/admin${link.href}${child.href}`}
+                key={child.title}
+                className={cn(
+                  buttonVariants({ variant: 'ghost' }),
+                  'relative flex h-10 w-full justify-start gap-3 hover:bg-accent focus:bg-accent',
+                  isActiveChild && 'bg-slate-300'
+                )}
+              >
+                <div className="size-2 rounded-full border bg-accent-foreground" />
+                <span> {child.title}</span>
+              </CustomLink>
+            );
+          })}
         </AccordionContent>
       </AccordionItem>
     </Accordion>

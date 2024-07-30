@@ -49,11 +49,24 @@ export interface ButtonProps
   asChild?: boolean;
   loading?: boolean;
   fullWidth?: boolean;
+  prefixElement?: React.ReactNode;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
-    { className, variant, type = 'button', size, fullWidth, rounded, asChild = false, loading, children, ...props },
+    {
+      className,
+      variant,
+      type = 'button',
+      size,
+      fullWidth,
+      rounded,
+      asChild = false,
+      loading,
+      children,
+      prefixElement,
+      ...props
+    },
     ref
   ) => {
     const Comp = asChild ? Slot : 'button';
@@ -69,6 +82,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           children
         ) : (
           <>
+            {prefixElement && prefixElement}
             {children}
             {loading && <Spinner className="ml-4" />}
           </>
