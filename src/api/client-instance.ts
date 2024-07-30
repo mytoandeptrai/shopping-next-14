@@ -25,7 +25,7 @@ let isTokenRefreshing = false;
 const retryRequestAfterUnauthorized: AfterResponseHookWithProcess = (process) => {
   return async (request, options, response) => {
     if (runtimeCheck() === 'browser') {
-      const data = await response.json();
+      const data: any = await response.json();
       if (data.code === ExceptionCode.UNAUTHORIZED) {
         if (isTokenRefreshing) {
           return new Promise((resolve, reject) => {
