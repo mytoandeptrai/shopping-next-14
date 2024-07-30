@@ -14,7 +14,7 @@ const AdminLayout: FCC = ({ children }) => {
         <Sidebar />
         <div className="flex w-full flex-col">
           <AdminHeader />
-          <div className="container flex-grow py-4">{children}</div>
+          <main className="container flex-grow py-4">{children}</main>
         </div>
       </div>
     </SidebarProvider>

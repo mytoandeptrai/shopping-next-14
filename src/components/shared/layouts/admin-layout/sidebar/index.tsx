@@ -18,7 +18,7 @@ const Sidebar = () => {
     >
       <aside
         className={cn(
-          'fixed top-0 z-50 hidden h-screen shrink-0 bg-card transition-[width] duration-300 md:block ltr:left-0 ltr:border-r rtl:right-0 rtl:border-l w-72',
+          'fixed top-0 z-50 hidden h-screen bg-card transition-[width] duration-300 md:block left-0 border-r w-72',
           {
             'w-20': !isOpen,
           }
