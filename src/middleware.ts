@@ -7,6 +7,10 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const hasToken = request.cookies.has(process.env.NEXT_PUBLIC_COOKIE_NAME_TOKEN ?? 'TPMT-token');
 
+  if (!hasToken && pathname.startsWith(ROUTES.ADMIN)) {
+    return NextResponse.redirect(new URL(ROUTES.LOGIN, request.url));
+  }
+
   if (hasToken && AUTH_ROUTES.includes(pathname)) {
     return NextResponse.redirect(new URL(ROUTES.HOME, request.url));
   }

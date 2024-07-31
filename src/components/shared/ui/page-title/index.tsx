@@ -16,7 +16,7 @@ const PageTitle: FCC<Props> = ({ title, children }) => {
         </div>
         <h1 className="scroll-m-20 text-2xl font-extrabold tracking-tight lg:text-3xl">{title}</h1>
       </div>
-      <Separator className="h-2 bg-gray-100 lg:hidden" />
+      <Separator className="h-2 bg-gray-100 mb-4 lg:hidden " />
       {children}
     </>
   );

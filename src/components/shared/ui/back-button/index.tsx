@@ -16,7 +16,7 @@ const BackButton: FCC = () => {
   return (
     <Button
       prefixElement={
-        <ArrowLeftIcon className="text-gray-500 rounded-2xl w-8 h-8 p-1 lg:w-9 lg:h-9 lg:p-1.5 active:scale-95 bg-gray-50" />
+        <ArrowLeftIcon className="text-gray-500 mr-3 rounded-2xl w-7 h-7 p-1 lg:w-8 lg:h-8 md:p-1.5 active:scale-95 bg-gray-50" />
       }
       title="Back"
       className="mx-3 my-2"

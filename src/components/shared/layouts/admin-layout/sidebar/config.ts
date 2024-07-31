@@ -44,7 +44,7 @@ export const sidebarLinks: SidebarLink[] = [
     children: [
       {
         title: 'list',
-        href: '/list',
+        href: '/',
       },
       {
         title: 'add',
@@ -63,7 +63,7 @@ export const sidebarLinks: SidebarLink[] = [
     children: [
       {
         title: 'list',
-        href: '/list',
+        href: '/',
       },
     ],
   },

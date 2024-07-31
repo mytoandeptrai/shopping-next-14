@@ -52,11 +52,12 @@ export type ElementProps<ElementType extends React.ElementType, PropsToOmit exte
 >;
 
 export interface IPagination {
-  totalItems: number;
-  itemCount: number;
-  itemsPerPage: number;
-  totalPages: number;
   currentPage: number;
+  nextPage: number;
+  previousPage: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  lastPage: number;
 }
 
 export interface IPaging {
@@ -76,4 +77,9 @@ export interface IPaginationBeRes<T> {
     hasPreviousPage: boolean;
     lastPage: number;
   };
+}
+
+export interface IBaseAPIResponse {
+  code: number;
+  message: string;
 }

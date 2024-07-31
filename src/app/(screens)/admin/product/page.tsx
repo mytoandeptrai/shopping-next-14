@@ -1,4 +1,4 @@
-import { ProductList } from '@/modules/Products';
+import { ProductList } from '@/modules/Admin/Products';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
